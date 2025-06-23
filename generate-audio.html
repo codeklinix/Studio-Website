@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Sample Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .audio-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .generate-btn, .download-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .generate-btn:hover, .download-btn:hover {
+            background: #e55a2b;
+        }
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        audio {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Audio Sample Generator</h1>
+        
+        <div class="warning">
+            <strong>Note:</strong> This generates simple synthesized audio samples for testing purposes only. For your actual website, you should use real music samples from your studio productions.
+        </div>
+
+        <div class="audio-section">
+            <h2>Rock Sample</h2>
+            <p>Generates a rock-style power chord progression</p>
+            <button class="generate-btn" onclick="generateRockSample()">Generate Rock Sample</button>
+            <button class="download-btn" id="downloadRock" onclick="downloadAudio('rockSample', 'rock-sample.wav')" disabled>Download</button>
+            <br>
+            <audio id="rockAudio" controls style="display: none;"></audio>
+        </div>
+
+        <div class="audio-section">
+            <h2>Pop Sample</h2>
+            <p>Generates an upbeat pop melody</p>
+            <button class="generate-btn" onclick="generatePopSample()">Generate Pop Sample</button>
+            <button class="download-btn" id="downloadPop" onclick="downloadAudio('popSample', 'pop-sample.wav')" disabled>Download</button>
+            <br>
+            <audio id="popAudio" controls style="display: none;"></audio>
+        </div>
+
+        <div class="audio-section">
+            <h2>Jazz Sample</h2>
+            <p>Generates a smooth jazz chord progression</p>
+            <button class="generate-btn" onclick="generateJazzSample()">Generate Jazz Sample</button>
+            <button class="download-btn" id="downloadJazz" onclick="downloadAudio('jazzSample', 'jazz-sample.wav')" disabled>Download</button>
+            <br>
+            <audio id="jazzAudio" controls style="display: none;"></audio>
+        </div>
+
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click "Generate" buttons to create audio samples</li>
+                <li>Listen to the samples using the audio players</li>
+                <li>Click "Download" to save the audio files</li>
+                <li>Move the downloaded files to the <code>assets/samples/</code> folder</li>
+                <li>Replace with your actual studio productions when available</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let audioContext;
+        let rockSample, popSample, jazzSample;
+
+        // Initialize Web Audio API
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Generate a tone
+        function generateTone(frequency, duration, gainValue = 0.1) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(gainValue, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+            
+            return {oscillator, gainNode};
+        }
+
+        // Create audio buffer and convert to downloadable format
+        function createAudioSample(generateFunction, duration) {
+            initAudio();
+            
+            const sampleRate = audioContext.sampleRate;
+            const numberOfChannels = 2;
+            const length = sampleRate * duration;
+            
+            const buffer = audioContext.createBuffer(numberOfChannels, length, sampleRate);
+            
+            // Generate the audio pattern
+            generateFunction(buffer, sampleRate);
+            
+            return buffer;
+        }
+
+        // Rock sample generation
+        function generateRockSample() {
+            initAudio();
+            
+            const duration = 8; // 8 seconds
+            const buffer = createAudioSample((buffer, sampleRate) => {
+                const leftChannel = buffer.getChannelData(0);
+                const rightChannel = buffer.getChannelData(1);
+                
+                // Rock power chord progression: E5 - A5 - D5 - G5
+                const chords = [82.4, 110, 146.8, 196]; // E2, A2, D3, G3
+                const chordDuration = sampleRate * 2; // 2 seconds per chord
+                
+                for (let chord = 0; chord < 4; chord++) {
+                    const startSample = chord * chordDuration;
+                    const frequency = chords[chord];
+                    
+                    for (let i = 0; i < chordDuration && (startSample + i) < buffer.length; i++) {
+                        const t = i / sampleRate;
+                        // Power chord (root + fifth)
+                        const sample = (
+                            Math.sin(2 * Math.PI * frequency * t) * 0.3 +
+                            Math.sin(2 * Math.PI * frequency * 1.5 * t) * 0.2 +
+                            Math.random() * 0.05 // Add some distortion
+                        ) * Math.exp(-t * 0.5); // Decay
+                        
+                        leftChannel[startSample + i] = sample;
+                        rightChannel[startSample + i] = sample;
+                    }
+                }
+            }, duration);
+            
+            rockSample = buffer;
+            playBuffer(buffer, 'rockAudio');
+            document.getElementById('downloadRock').disabled = false;
+        }
+
+        // Pop sample generation
+        function generatePopSample() {
+            initAudio();
+            
+            const duration = 8; // 8 seconds
+            const buffer = createAudioSample((buffer, sampleRate) => {
+                const leftChannel = buffer.getChannelData(0);
+                const rightChannel = buffer.getChannelData(1);
+                
+                // Pop melody: C - E - G - C - F - A - C - G
+                const notes = [261.6, 329.6, 392, 523.3, 349.2, 440, 523.3, 392];
+                const noteDuration = sampleRate; // 1 second per note
+                
+                for (let note = 0; note < 8; note++) {
+                    const startSample = note * noteDuration;
+                    const frequency = notes[note];
+                    
+                    for (let i = 0; i < noteDuration && (startSample + i) < buffer.length; i++) {
+                        const t = i / sampleRate;
+                        // Bright pop sound with harmonics
+                        const sample = (
+                            Math.sin(2 * Math.PI * frequency * t) * 0.4 +
+                            Math.sin(2 * Math.PI * frequency * 2 * t) * 0.1 +
+                            Math.sin(2 * Math.PI * frequency * 3 * t) * 0.05
+                        ) * Math.exp(-t * 1.5); // Faster decay for pop sound
+                        
+                        leftChannel[startSample + i] = sample;
+                        rightChannel[startSample + i] = sample;
+                    }
+                }
+            }, duration);
+            
+            popSample = buffer;
+            playBuffer(buffer, 'popAudio');
+            document.getElementById('downloadPop').disabled = false;
+        }
+
+        // Jazz sample generation
+        function generateJazzSample() {
+            initAudio();
+            
+            const duration = 8; // 8 seconds
+            const buffer = createAudioSample((buffer, sampleRate) => {
+                const leftChannel = buffer.getChannelData(0);
+                const rightChannel = buffer.getChannelData(1);
+                
+                // Jazz chord progression: Cmaj7 - Am7 - Dm7 - G7
+                const chords = [
+                    [261.6, 329.6, 392, 493.9], // Cmaj7
+                    [220, 261.6, 329.6, 392],   // Am7
+                    [146.8, 220, 261.6, 329.6], // Dm7
+                    [196, 246.9, 293.7, 349.2]  // G7
+                ];
+                const chordDuration = sampleRate * 2; // 2 seconds per chord
+                
+                for (let chord = 0; chord < 4; chord++) {
+                    const startSample = chord * chordDuration;
+                    const chordNotes = chords[chord];
+                    
+                    for (let i = 0; i < chordDuration && (startSample + i) < buffer.length; i++) {
+                        const t = i / sampleRate;
+                        let sample = 0;
+                        
+                        // Play all notes in the chord
+                        for (let noteIndex = 0; noteIndex < chordNotes.length; noteIndex++) {
+                            const frequency = chordNotes[noteIndex];
+                            sample += Math.sin(2 * Math.PI * frequency * t) * 0.15;
+                        }
+                        
+                        sample *= Math.exp(-t * 0.3); // Slow decay for smooth jazz sound
+                        
+                        leftChannel[startSample + i] = sample;
+                        rightChannel[startSample + i] = sample;
+                    }
+                }
+            }, duration);
+            
+            jazzSample = buffer;
+            playBuffer(buffer, 'jazzAudio');
+            document.getElementById('downloadJazz').disabled = false;
+        }
+
+        // Play audio buffer
+        function playBuffer(buffer, audioElementId) {
+            const audioElement = document.getElementById(audioElementId);
+            const blob = bufferToWave(buffer);
+            const url = URL.createObjectURL(blob);
+            
+            audioElement.src = url;
+            audioElement.style.display = 'block';
+        }
+
+        // Convert audio buffer to WAV format
+        function bufferToWave(buffer) {
+            const length = buffer.length;
+            const numberOfChannels = buffer.numberOfChannels;
+            const sampleRate = buffer.sampleRate;
+            const bytesPerSample = 2;
+            const blockAlign = numberOfChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            const dataSize = length * blockAlign;
+            const headerSize = 44;
+            const totalSize = headerSize + dataSize;
+            
+            const arrayBuffer = new ArrayBuffer(totalSize);
+            const view = new DataView(arrayBuffer);
+            
+            // WAV header
+            const writeString = (offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+            
+            writeString(0, 'RIFF');
+            view.setUint32(4, totalSize - 8, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numberOfChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bytesPerSample * 8, true);
+            writeString(36, 'data');
+            view.setUint32(40, dataSize, true);
+            
+            // Audio data
+            let offset = 44;
+            for (let i = 0; i < length; i++) {
+                for (let channel = 0; channel < numberOfChannels; channel++) {
+                    const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]));
+                    view.setInt16(offset, sample * 0x7FFF, true);
+                    offset += 2;
+                }
+            }
+            
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+
+        // Download audio function
+        function downloadAudio(sampleName, filename) {
+            let buffer;
+            switch(sampleName) {
+                case 'rockSample': buffer = rockSample; break;
+                case 'popSample': buffer = popSample; break;
+                case 'jazzSample': buffer = jazzSample; break;
+                default: return;
+            }
+            
+            if (buffer) {
+                const blob = bufferToWave(buffer);
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>

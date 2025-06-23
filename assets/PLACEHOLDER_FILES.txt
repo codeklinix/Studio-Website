@@ -1,0 +1,55 @@
+PLACEHOLDER ASSETS - REPLACE WITH YOUR OWN CONTENT
+
+🎵 QUICK START - Use the Generator Tools!
+
+I've created generator tools to help you get started quickly:
+
+1. 📸 IMAGES: Open "generate-images.html" in your browser
+   - Automatically creates studio-photo.jpg, album1.jpg, album2.jpg, album3.jpg
+   - Click "Generate & Download" buttons for each image
+   - Move downloaded files to this assets/ folder
+
+2. 🎵 AUDIO: Open "generate-audio.html" in your browser
+   - Creates rock-sample.wav, pop-sample.wav, jazz-sample.wav
+   - Click "Generate" then "Download" for each sample
+   - Move downloaded files to assets/samples/ folder
+   - Convert to MP3 if needed (or rename .wav to .mp3)
+
+3. 🎥 VIDEO: Open "generate-video.html" in your browser
+   - Creates animated studio-video.webm
+   - Click "Start Animation" then "Generate Video File"
+   - Rename to studio-video.mp4 and place in assets/ folder
+
+FILES NEEDED FOR WEBSITE:
+- studio-photo.jpg (1200x800px) - Studio interior photo
+- album1.jpg (600x600px) - Rock album cover
+- album2.jpg (600x600px) - Pop single cover  
+- album3.jpg (600x600px) - Jazz EP cover
+- studio-video.mp4 - Background video for hero section
+- samples/rock-sample.mp3 - Rock music sample
+- samples/pop-sample.mp3 - Pop music sample
+- samples/jazz-sample.mp3 - Jazz music sample
+
+QUICK SETUP STEPS:
+1. Make sure XAMPP is running (Apache + PHP)
+2. Open each generator HTML file and download all assets
+3. Place downloaded files in correct folders
+4. Visit http://localhost/Music Production studio website/
+5. Your website is ready!
+
+REPLACE WITH REAL CONTENT:
+- Use actual studio photos and equipment shots
+- Add real music samples from your productions
+- Include genuine client testimonials and portfolios
+- Update contact information with your details
+- Add professional studio video footage
+
+FUTURE ENHANCEMENTS:
+- More portfolio images and audio samples
+- Client testimonials and reviews
+- Studio equipment showcase
+- Team/staff photos
+- Behind-the-scenes content
+- Virtual studio tour
+
+Remember to update README.md and index.html with your actual studio information!

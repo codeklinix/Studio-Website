@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Video Placeholder Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .video-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            text-align: center;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .generate-btn, .download-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .generate-btn:hover, .download-btn:hover {
+            background: #e55a2b;
+        }
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+            text-align: left;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+            text-align: left;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Studio Video Placeholder Generator</h1>
+        
+        <div class="warning">
+            <strong>Note:</strong> This creates a simple animated placeholder for testing. For your actual website, you should use real studio footage or professional video content.
+        </div>
+
+        <div class="video-section">
+            <h2>Studio Showcase Video</h2>
+            <p>Animated placeholder showing studio environment</p>
+            
+            <canvas id="videoCanvas" width="800" height="450"></canvas>
+            
+            <div class="controls">
+                <button class="generate-btn" onclick="startAnimation()">Start Animation</button>
+                <button class="generate-btn" onclick="stopAnimation()">Stop Animation</button>
+                <button class="download-btn" id="downloadVideo" onclick="generateAndDownloadVideo()" disabled>Generate Video File</button>
+            </div>
+            
+            <video id="previewVideo" controls style="display: none;">
+                <source type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click "Start Animation" to preview the studio animation</li>
+                <li>Click "Stop Animation" to stop the preview</li>
+                <li>Click "Generate Video File" to create a downloadable MP4/WebM file</li>
+                <li>Save the file as <code>studio-video.mp4</code> in the <code>assets/</code> folder</li>
+                <li>Replace with actual studio footage when available</li>
+            </ol>
+            <p><strong>Tip:</strong> This creates a 10-second looping animation suitable for the hero section background.</p>
+        </div>
+    </div>
+
+    <script>
+        let canvas, ctx, animationId;
+        let isAnimating = false;
+        let startTime = 0;
+
+        window.onload = function() {
+            canvas = document.getElementById('videoCanvas');
+            ctx = canvas.getContext('2d');
+            drawStaticFrame();
+        };
+
+        function drawStudioScene(time = 0) {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#2c3e50');
+            gradient.addColorStop(0.5, '#34495e');
+            gradient.addColorStop(1, '#1a252f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Animated lighting effect
+            const lightIntensity = 0.3 + 0.2 * Math.sin(time * 0.002);
+            ctx.fillStyle = `rgba(255, 107, 53, ${lightIntensity})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Studio floor
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
+            
+            // Mixing console
+            ctx.fillStyle = '#2a2a2a';
+            ctx.fillRect(50, canvas.height - 80, 700, 60);
+            
+            // Console details
+            ctx.fillStyle = '#444';
+            ctx.fillRect(70, canvas.height - 70, 660, 40);
+            
+            // Animated faders
+            for (let i = 0; i < 20; i++) {
+                const faderHeight = 15 + 10 * Math.sin(time * 0.001 + i * 0.5);
+                ctx.fillStyle = '#ff6b35';
+                ctx.fillRect(90 + i * 32, canvas.height - 50 - faderHeight, 6, faderHeight);
+                
+                // Fader track
+                ctx.fillStyle = '#666';
+                ctx.fillRect(90 + i * 32, canvas.height - 60, 6, 30);
+            }
+            
+            // Studio monitors (left)
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(100, 180, 120, 160);
+            
+            // Speaker cone (animated)
+            const speakerPulse = 1 + 0.1 * Math.sin(time * 0.003);
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(160, 260, 40 * speakerPulse, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Studio monitors (right)
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(580, 180, 120, 160);
+            
+            // Speaker cone (animated, different phase)
+            const speakerPulse2 = 1 + 0.1 * Math.sin(time * 0.003 + Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(640, 260, 40 * speakerPulse2, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Microphone stand
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(400, canvas.height - 80);
+            ctx.lineTo(400, 200);
+            ctx.stroke();
+            
+            // Microphone (with subtle sway)
+            const micSway = 5 * Math.sin(time * 0.001);
+            ctx.fillStyle = '#666';
+            ctx.fillRect(395 + micSway, 190, 10, 30);
+            
+            // Microphone mesh
+            ctx.fillStyle = '#888';
+            ctx.beginPath();
+            ctx.arc(400 + micSway, 185, 12, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Cables (animated)
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 4;
+            for (let i = 0; i < 3; i++) {
+                const waveOffset = Math.sin(time * 0.002 + i) * 10;
+                ctx.beginPath();
+                ctx.moveTo(200 + i * 150, canvas.height - 80);
+                ctx.bezierCurveTo(
+                    250 + i * 150 + waveOffset, canvas.height - 120,
+                    300 + i * 150 - waveOffset, canvas.height - 100,
+                    350 + i * 150, canvas.height - 80
+                );
+                ctx.stroke();
+            }
+            
+            // Title overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('SoundWave Studios', canvas.width / 2, 80);
+            
+            ctx.font = '24px Arial';
+            ctx.fillText('Professional Recording Environment', canvas.width / 2, 120);
+            
+            // Subtle particle effects
+            for (let i = 0; i < 20; i++) {
+                const x = (time * 0.1 + i * 50) % canvas.width;
+                const y = 100 + 50 * Math.sin(time * 0.001 + i);
+                const alpha = 0.3 + 0.2 * Math.sin(time * 0.002 + i);
+                
+                ctx.fillStyle = `rgba(255, 107, 53, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function drawStaticFrame() {
+            drawStudioScene(0);
+        }
+
+        function animate(currentTime) {
+            if (!isAnimating) return;
+            
+            if (startTime === 0) startTime = currentTime;
+            const elapsed = currentTime - startTime;
+            
+            drawStudioScene(elapsed);
+            
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function startAnimation() {
+            if (!isAnimating) {
+                isAnimating = true;
+                startTime = 0;
+                document.getElementById('downloadVideo').disabled = false;
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function stopAnimation() {
+            isAnimating = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        }
+
+        async function generateAndDownloadVideo() {
+            // This is a simplified approach - in reality, you'd need a more sophisticated
+            // video encoding solution. This creates a WebM video using MediaRecorder API.
+            
+            const stream = canvas.captureStream(30); // 30 FPS
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm;codecs=vp8'
+            });
+            
+            const chunks = [];
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    chunks.push(event.data);
+                }
+            };
+            
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                
+                // Show preview
+                const video = document.getElementById('previewVideo');
+                video.src = url;
+                video.style.display = 'block';
+                
+                // Download link
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'studio-video.webm';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            };
+            
+            // Start recording
+            startAnimation();
+            mediaRecorder.start();
+            
+            // Record for 10 seconds
+            setTimeout(() => {
+                mediaRecorder.stop();
+                stopAnimation();
+            }, 10000);
+            
+            alert('Recording started! The video will be generated in 10 seconds.');
+        }
+    </script>
+</body>
+</html>

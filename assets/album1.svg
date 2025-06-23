@@ -1,0 +1,37 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="rockBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#333;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="600" fill="url(#rockBg)"/>
+  
+  <!-- Lightning bolt -->
+  <path d="M 150 100 L 200 250 L 180 250 L 230 400 L 210 400 L 260 550" 
+        stroke="#ff6b35" stroke-width="8" fill="none" stroke-linejoin="round"/>
+  
+  <!-- Mirror lightning -->
+  <path d="M 450 100 L 400 250 L 420 250 L 370 400 L 390 400 L 340 550" 
+        stroke="#f7931e" stroke-width="6" fill="none" stroke-linejoin="round"/>
+  
+  <!-- Title -->
+  <text x="300" y="200" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">
+    MIDNIGHT
+  </text>
+  <text x="300" y="260" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">
+    THUNDER
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="300" y="350" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#ff6b35">
+    Rock Album
+  </text>
+  
+  <!-- Studio credit -->
+  <text x="300" y="520" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#ccc">
+    SoundWave Studios Production
+  </text>
+</svg>

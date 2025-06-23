@@ -1,0 +1,8 @@
+This is a placeholder audio file. 
+
+To add actual audio:
+1. Use the generate-audio.html tool to create synthesized samples
+2. Record actual music samples from your studio productions  
+3. Replace this file with a real MP3 file
+
+For now, the audio player will show but won't play anything meaningful.

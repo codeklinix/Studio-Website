@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator for Music Studio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 2px solid #ddd;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .image-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .download-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 14px;
+        }
+        .download-btn:hover {
+            background: #e55a2b;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Music Studio Image Generator</h1>
+        <div class="info">
+            <strong>Instructions:</strong> Click the "Generate & Download" buttons below to create placeholder images for your music studio website. These will be automatically sized correctly for each section.
+        </div>
+
+        <div class="image-section">
+            <h2>Studio Photo (About Section)</h2>
+            <canvas id="studioCanvas" width="1200" height="800"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadImage('studioCanvas', 'studio-photo.jpg')">Generate & Download Studio Photo</button>
+        </div>
+
+        <div class="image-section">
+            <h2>Album Cover 1 - Rock Album</h2>
+            <canvas id="album1Canvas" width="600" height="600"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadImage('album1Canvas', 'album1.jpg')">Generate & Download Album 1</button>
+        </div>
+
+        <div class="image-section">
+            <h2>Album Cover 2 - Pop Single</h2>
+            <canvas id="album2Canvas" width="600" height="600"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadImage('album2Canvas', 'album2.jpg')">Generate & Download Album 2</button>
+        </div>
+
+        <div class="image-section">
+            <h2>Album Cover 3 - Jazz EP</h2>
+            <canvas id="album3Canvas" width="600" height="600"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadImage('album3Canvas', 'album3.jpg')">Generate & Download Album 3</button>
+        </div>
+
+        <div class="info">
+            <strong>Next Steps:</strong>
+            <ol>
+                <li>Download all images using the buttons above</li>
+                <li>Move the downloaded files to the <code>assets/</code> folder</li>
+                <li>Replace these placeholders with your actual studio photos and album covers</li>
+                <li>Add audio samples to the <code>assets/samples/</code> folder</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Studio Photo Generator
+        function generateStudioPhoto() {
+            const canvas = document.getElementById('studioCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#2c3e50');
+            gradient.addColorStop(0.5, '#34495e');
+            gradient.addColorStop(1, '#2c3e50');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add studio equipment shapes
+            ctx.fillStyle = '#1a252f';
+            ctx.fillRect(100, 600, 1000, 150); // Console base
+            
+            ctx.fillStyle = '#34495e';
+            ctx.fillRect(150, 550, 900, 50); // Console top
+            
+            // Mixing board elements
+            for (let i = 0; i < 20; i++) {
+                ctx.fillStyle = '#555';
+                ctx.fillRect(200 + i * 40, 520, 8, 30);
+                ctx.fillStyle = '#ff6b35';
+                ctx.beginPath();
+                ctx.arc(204 + i * 40, 510, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Monitor speakers
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(200, 200, 150, 200);
+            ctx.fillRect(850, 200, 150, 200);
+            
+            // Speaker cones
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(275, 300, 50, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(925, 300, 50, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 60px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('SoundWave Studios', canvas.width / 2, 100);
+            
+            ctx.font = '30px Arial';
+            ctx.fillText('Professional Recording Environment', canvas.width / 2, 150);
+            
+            // Equipment labels
+            ctx.font = '20px Arial';
+            ctx.fillText('Mixing Console', canvas.width / 2, 480);
+            ctx.fillText('Studio Monitors', 275, 450);
+            ctx.fillText('Studio Monitors', 925, 450);
+        }
+
+        // Album Cover Generators
+        function generateAlbum1() {
+            const canvas = document.getElementById('album1Canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Rock album - dark theme
+            const gradient = ctx.createRadialGradient(300, 300, 0, 300, 300, 400);
+            gradient.addColorStop(0, '#1a1a1a');
+            gradient.addColorStop(1, '#000');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Lightning effect
+            ctx.strokeStyle = '#ff6b35';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(150, 100);
+            ctx.lineTo(200, 250);
+            ctx.lineTo(180, 250);
+            ctx.lineTo(230, 400);
+            ctx.lineTo(210, 400);
+            ctx.lineTo(260, 550);
+            ctx.stroke();
+            
+            // Mirror effect
+            ctx.strokeStyle = '#f7931e';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(450, 100);
+            ctx.lineTo(400, 250);
+            ctx.lineTo(420, 250);
+            ctx.lineTo(370, 400);
+            ctx.lineTo(390, 400);
+            ctx.lineTo(340, 550);
+            ctx.stroke();
+            
+            // Title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('MIDNIGHT', 300, 200);
+            ctx.fillText('THUNDER', 300, 260);
+            
+            ctx.font = '24px Arial';
+            ctx.fillText('Rock Album', 300, 350);
+            
+            ctx.font = '18px Arial';
+            ctx.fillText('SoundWave Studios Production', 300, 520);
+        }
+
+        function generateAlbum2() {
+            const canvas = document.getElementById('album2Canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Pop album - bright theme
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#ff6b35');
+            gradient.addColorStop(0.3, '#f7931e');
+            gradient.addColorStop(0.6, '#ff6b35');
+            gradient.addColorStop(1, '#e85d2e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Sun rays
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 4;
+            for (let i = 0; i < 16; i++) {
+                ctx.beginPath();
+                ctx.moveTo(300, 300);
+                const angle = (i * 22.5) * Math.PI / 180;
+                ctx.lineTo(300 + Math.cos(angle) * 250, 300 + Math.sin(angle) * 250);
+                ctx.stroke();
+            }
+            
+            // Central circle
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(300, 300, 80, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 42px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('SUMMER', 300, 180);
+            ctx.fillText('VIBES', 300, 230);
+            
+            ctx.font = '24px Arial';
+            ctx.fillText('Pop Single', 300, 420);
+            
+            ctx.font = '18px Arial';
+            ctx.fillText('SoundWave Studios Production', 300, 520);
+        }
+
+        function generateAlbum3() {
+            const canvas = document.getElementById('album3Canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Jazz album - sophisticated theme
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#2c3e50');
+            gradient.addColorStop(0.5, '#34495e');
+            gradient.addColorStop(1, '#1a252f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Piano keys
+            ctx.fillStyle = 'white';
+            for (let i = 0; i < 8; i++) {
+                ctx.fillRect(50 + i * 70, 450, 60, 120);
+            }
+            
+            // Black keys
+            ctx.fillStyle = '#1a1a1a';
+            for (let i = 0; i < 7; i++) {
+                if (i !== 2 && i !== 6) { // Skip where black keys don't exist
+                    ctx.fillRect(85 + i * 70, 450, 30, 80);
+                }
+            }
+            
+            // Musical notes
+            ctx.fillStyle = '#ff6b35';
+            ctx.font = '60px Arial';
+            ctx.fillText('♪', 200, 200);
+            ctx.fillText('♫', 350, 150);
+            ctx.fillText('♪', 450, 220);
+            
+            // Title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('BLUE', 300, 300);
+            ctx.fillText('NOTES', 300, 360);
+            
+            ctx.font = '24px Arial';
+            ctx.fillText('Jazz EP', 300, 400);
+            
+            ctx.font = '18px Arial';
+            ctx.fillText('SoundWave Studios Production', 300, 520);
+        }
+
+        // Generate all images on page load
+        window.onload = function() {
+            generateStudioPhoto();
+            generateAlbum1();
+            generateAlbum2();
+            generateAlbum3();
+        };
+
+        // Download function
+        function downloadImage(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

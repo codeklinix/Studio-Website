@@ -1,0 +1,84 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#34495e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2c3e50;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  
+  <!-- Studio floor -->
+  <rect x="0" y="700" width="1200" height="100" fill="#1a1a1a"/>
+  
+  <!-- Mixing console -->
+  <rect x="100" y="620" width="1000" height="80" fill="#2a2a2a" rx="5"/>
+  <rect x="120" y="630" width="960" height="60" fill="#444" rx="3"/>
+  
+  <!-- Console faders -->
+  <g>
+    <rect x="150" y="635" width="8" height="50" fill="#666"/>
+    <rect x="150" y="645" width="8" height="15" fill="#ff6b35"/>
+    <rect x="180" y="635" width="8" height="50" fill="#666"/>
+    <rect x="180" y="650" width="8" height="15" fill="#ff6b35"/>
+    <rect x="210" y="635" width="8" height="50" fill="#666"/>
+    <rect x="210" y="640" width="8" height="15" fill="#ff6b35"/>
+    <rect x="240" y="635" width="8" height="50" fill="#666"/>
+    <rect x="240" y="655" width="8" height="15" fill="#ff6b35"/>
+    <rect x="270" y="635" width="8" height="50" fill="#666"/>
+    <rect x="270" y="645" width="8" height="15" fill="#ff6b35"/>
+  </g>
+  
+  <!-- More faders -->
+  <g>
+    <rect x="320" y="635" width="8" height="50" fill="#666"/>
+    <rect x="320" y="650" width="8" height="15" fill="#ff6b35"/>
+    <rect x="350" y="635" width="8" height="50" fill="#666"/>
+    <rect x="350" y="640" width="8" height="15" fill="#ff6b35"/>
+    <rect x="380" y="635" width="8" height="50" fill="#666"/>
+    <rect x="380" y="655" width="8" height="15" fill="#ff6b35"/>
+    <rect x="410" y="635" width="8" height="50" fill="#666"/>
+    <rect x="410" y="645" width="8" height="15" fill="#ff6b35"/>
+  </g>
+  
+  <!-- Studio monitors (left) -->
+  <rect x="150" y="300" width="180" height="240" fill="#1a1a1a" rx="10"/>
+  <circle cx="240" cy="420" r="60" fill="#333"/>
+  <circle cx="240" cy="420" r="40" fill="#555"/>
+  
+  <!-- Studio monitors (right) -->
+  <rect x="870" y="300" width="180" height="240" fill="#1a1a1a" rx="10"/>
+  <circle cx="960" cy="420" r="60" fill="#333"/>
+  <circle cx="960" cy="420" r="40" fill="#555"/>
+  
+  <!-- Microphone stand -->
+  <line x1="600" y1="620" x2="600" y2="250" stroke="#555" stroke-width="12"/>
+  <rect x="590" y="230" width="20" height="40" fill="#666" rx="10"/>
+  <circle cx="600" cy="220" r="15" fill="#888"/>
+  
+  <!-- Cables -->
+  <path d="M 300 620 Q 350 580 400 620" stroke="#333" stroke-width="6" fill="none"/>
+  <path d="M 500 620 Q 550 580 600 620" stroke="#333" stroke-width="6" fill="none"/>
+  <path d="M 700 620 Q 750 580 800 620" stroke="#333" stroke-width="6" fill="none"/>
+  
+  <!-- Title -->
+  <text x="600" y="120" font-family="Arial, sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="white">
+    SoundWave Studios
+  </text>
+  <text x="600" y="170" font-family="Arial, sans-serif" font-size="30" text-anchor="middle" fill="#ccc">
+    Professional Recording Environment
+  </text>
+  
+  <!-- Equipment labels -->
+  <text x="240" y="290" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#ff6b35">
+    Studio Monitors
+  </text>
+  <text x="960" y="290" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#ff6b35">
+    Studio Monitors
+  </text>
+  <text x="600" y="610" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#ff6b35">
+    Mixing Console
+  </text>
+</svg>
